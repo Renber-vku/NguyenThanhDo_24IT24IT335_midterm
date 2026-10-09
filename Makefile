@@ -1,22 +1,20 @@
 CC      ?= cc
 CFLAGS  ?= -std=c11 -Wall -Wextra -Wpedantic -O2 -D_NETBSD_SOURCE -D_POSIX_C_SOURCE=200809L -Iinclude -g
 TARGET  := myls
-SRCS    := src/options.c src/entry.c src/sort.c src/display.c src/list.c src/main.c
-OBJS    := $(SRCS:src/%.c=build/%.o)
+OBJS    := src/options.o src/entry.o src/sort.o src/display.o src/list.o src/main.o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $(OBJS)
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS)
 
-build/%.o: src/%.c
-	@mkdir -p build
+.c.o:
 	$(CC) $(CFLAGS) -c $< -o $@
 
 test: $(TARGET)
 	@sh tests/test.sh
 
 clean:
-	rm -rf build $(TARGET) tests/sandbox
+	rm -rf src/*.o $(TARGET) tests/sandbox /tmp/sysls.* /tmp/myls.*
 
 .PHONY: all clean test
