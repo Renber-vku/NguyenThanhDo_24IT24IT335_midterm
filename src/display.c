@@ -28,6 +28,9 @@ static int digits(unsigned long long n)
 /* Formats byte size as human-readable (e.g. 512B, 1.5K, 23M, 1.2G) */
 static void format_human(unsigned long long bytes, char *buf, size_t len)
 {
+#if defined(HN_AUTOSCALE)
+    humanize_number(buf, len, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL);
+#else
     const char units[] = "BKMGTPE";
     double v = (double)bytes;
     int u = 0;
@@ -43,6 +46,7 @@ static void format_human(unsigned long long bytes, char *buf, size_t len)
         snprintf(buf, len, "%.1f%c", v, units[u]);
     else
         snprintf(buf, len, "%.0f%c", v, units[u]);
+#endif
 }
 
 /* Calculates block count for an entry based on -h, -k, and BLOCKSIZE */
