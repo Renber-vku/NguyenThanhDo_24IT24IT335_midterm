@@ -28,7 +28,8 @@ static int digits(unsigned long long n)
 
 static void format_human(unsigned long long bytes, char *buf, size_t len)
 {
-    humanize_number(buf, len, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL);
+    (void)len;
+    humanize_number(buf, 5, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL);
 }
 
 /* Calculates block count for an entry based on -h, -k, and BLOCKSIZE */
