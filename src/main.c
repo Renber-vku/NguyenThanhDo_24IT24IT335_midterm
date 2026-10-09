@@ -58,7 +58,7 @@ int main(int argc, char **argv)
     }
     free(files);
 
-    header = (nargs > 1) || opt.recursive;
+    header = (nargs > 1);
 
     if (!opt.dir) {
         for (i = 0; i < args.count; i++) {

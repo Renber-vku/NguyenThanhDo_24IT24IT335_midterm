@@ -259,7 +259,7 @@ static void print_long(const Entry *items, size_t n, const Options *opt, int wit
         mode_string(e->st.st_mode, mode);
         format_size(e, opt, sb, sizeof sb);
 
-        printf("%s %*lu %-*s %-*s %*s ", mode,
+        printf("%s  %*lu %-*s  %-*s  %*s ", mode,
                wl, (unsigned long)e->st.st_nlink,
                wu, user_name(e->st.st_uid, opt, ub, sizeof ub),
                wg, group_name(e->st.st_gid, opt, gb, sizeof gb),
