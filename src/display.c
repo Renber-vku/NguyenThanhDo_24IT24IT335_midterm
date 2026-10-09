@@ -11,6 +11,7 @@
 #endif
 #include <time.h>
 #include <unistd.h>
+#include <util.h>
 #include "display.h"
 
 #define SIX_MONTHS 15778476L
@@ -25,28 +26,9 @@ static int digits(unsigned long long n)
     return d;
 }
 
-/* Formats byte size as human-readable (e.g. 512B, 1.5K, 23M, 1.2G) */
 static void format_human(unsigned long long bytes, char *buf, size_t len)
 {
-#if defined(HN_AUTOSCALE)
     humanize_number(buf, len, (int64_t)bytes, "", HN_AUTOSCALE, HN_B | HN_NOSPACE | HN_DECIMAL);
-#else
-    const char units[] = "BKMGTPE";
-    double v = (double)bytes;
-    int u = 0;
-
-    while (v >= 1024.0 && u < 6) {
-        v /= 1024.0;
-        u++;
-    }
-
-    if (u == 0)
-        snprintf(buf, len, "%lluB", bytes);
-    else if (v < 10.0)
-        snprintf(buf, len, "%.1f%c", v, units[u]);
-    else
-        snprintf(buf, len, "%.0f%c", v, units[u]);
-#endif
 }
 
 /* Calculates block count for an entry based on -h, -k, and BLOCKSIZE */
