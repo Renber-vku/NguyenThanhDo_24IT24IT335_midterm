@@ -177,20 +177,26 @@ static void print_classifier(mode_t m, const Options *opt)
 static void print_total_line(const Entry *items, size_t n, const Options *opt)
 {
     unsigned long long total_raw_blocks = 0;
+    unsigned long long total_bytes = 0;
     size_t i;
 
-    for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++) {
         total_raw_blocks += (unsigned long long)items[i].st.st_blocks;
+        total_bytes += (unsigned long long)items[i].st.st_size;
+    }
 
     if (opt->size_fmt == SIZE_HUMAN) {
         char buf[32];
-        format_human(total_raw_blocks * 512ULL, buf, sizeof buf);
+        if (opt->blocks)
+            format_human(total_raw_blocks * 512ULL, buf, sizeof buf);
+        else
+            format_human(total_bytes, buf, sizeof buf);
         printf("total %s\n", buf);
     } else if (opt->size_fmt == SIZE_KILOBYTES) {
         printf("total %llu\n", (total_raw_blocks * 512ULL + 1023ULL) / 1024ULL);
     } else if (opt->blocksize > 0) {
-        unsigned long long total_bytes = total_raw_blocks * 512ULL;
-        printf("total %llu\n", (total_bytes + (unsigned long long)opt->blocksize - 1ULL) / (unsigned long long)opt->blocksize);
+        unsigned long long total_b = total_raw_blocks * 512ULL;
+        printf("total %llu\n", (total_b + (unsigned long long)opt->blocksize - 1ULL) / (unsigned long long)opt->blocksize);
     } else {
         printf("total %llu\n", total_raw_blocks);
     }
