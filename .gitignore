@@ -1,0 +1,10 @@
+build/
+*.o
+*.d
+myls
+test_sandbox/
+*.log
+*.out
+*.err
+vgcore.*
+.DS_Store
