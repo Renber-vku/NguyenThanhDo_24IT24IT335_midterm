@@ -29,8 +29,11 @@ int parse_options(int argc, char **argv, Options *opt)
 
     opterr = 0; /* handle our own error messages */
 
-    while ((c = getopt(argc, argv, "AacdFfhiklnqRrSstuw")) != -1) {
+    while ((c = getopt(argc, argv, "1AacdFfhiklnqRrSstuw")) != -1) {
         switch (c) {
+        case '1':
+            /* -1: force single column output (already default in short mode) */
+            break;
         case 'A':
             opt->almost_all = 1;
             break;
